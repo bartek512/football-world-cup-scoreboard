@@ -19,6 +19,8 @@ public class Game {
 
     private static final String TOO_LONG_TEAM_NAME = "Team name cannot be longer than 35 characters.";
 
+    private static final String NEGATIVE_SCORE = "Scores cannot be negative.";
+
     public Game(String homeTeam, String awayTeam) {
         validateTeams(homeTeam, awayTeam);
 
@@ -26,6 +28,18 @@ public class Game {
         this.awayTeam = awayTeam;
         this.homeScore = 0;
         this.awayScore = 0;
+    }
+
+    public void updateScore(int homeScore, int awayScore) {
+        validateScore(homeScore, awayScore);
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+    }
+
+    private static void validateScore(int homeScore, int awayScore) {
+        if (homeScore < 0 || awayScore < 0) {
+            throw new IllegalArgumentException(NEGATIVE_SCORE);
+        }
     }
 
     private void validateTeams(String homeTeam, String awayTeam) {

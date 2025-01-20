@@ -18,6 +18,8 @@ public class GameTest {
 
     private static final String TOO_LONG_TEAM_NAME = "Team name cannot be longer than 35 characters.";
 
+    private static final String NEGATIVE_SCORE = "Scores cannot be negative.";
+
     private static final String POLAND = "Poland";
 
     private static final String SPAIN = "Spain";
@@ -141,5 +143,57 @@ public class GameTest {
         );
 
         assertEquals(TOO_LONG_TEAM_NAME, exception.getMessage());
+    }
+
+    @Test
+    void shouldUpdateScoreProperly() {
+        //given
+        // New Game object
+        Game game = new Game(POLAND, SPAIN);
+
+        //when
+        // Update score do 2-3 (home, away)
+        game.updateScore(2, 3);
+
+        //then
+        // Check if score is set to 2-3
+        assertEquals(2, game.getHomeScore());
+        assertEquals(3, game.getAwayScore());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenHomeScoreIsNegative() {
+        //given
+        // New Game object
+        Game game = new Game(POLAND, SPAIN);
+
+        //when
+        // Update score do 2-3 (home, away)
+        //then
+        // Should throw IllegalArgumentException with correct message
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.updateScore(-2, 3)
+        );
+
+        assertEquals(NEGATIVE_SCORE, exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAwayScoreIsNegative() {
+        //given
+        // New Game object
+        Game game = new Game(POLAND, SPAIN);
+
+        //when
+        // Update score do 2-3 (home, away)
+        //then
+        // Should throw IllegalArgumentException with correct message
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.updateScore(2, -3)
+        );
+
+        assertEquals(NEGATIVE_SCORE, exception.getMessage());
     }
 }
