@@ -1,6 +1,5 @@
 package FootballWorldCupScoreboard;
 
-
 public class Game {
 
     private final String homeTeam;

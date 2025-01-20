@@ -1,14 +1,11 @@
 package FootballWorldCupScoreboard;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameTest {
-
-    private Game game;
 
     private static final String HOME_TEAM_ERROR_MESSAGE = "Home team cannot be null or empty.";
 
