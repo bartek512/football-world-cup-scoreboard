@@ -24,6 +24,8 @@ public class Game {
 
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+        this.homeScore = 0;
+        this.awayScore = 0;
     }
 
     private void validateTeams(String homeTeam, String awayTeam) {
@@ -35,11 +37,6 @@ public class Game {
         if (homeTeam.trim().length() > 35 || awayTeam.trim().length() > 35) {
             throw new IllegalArgumentException(TOO_LONG_TEAM_NAME);
         }
-    }
-
-    public void startGame() {
-        this.homeScore = 0;
-        this.awayScore = 0;
     }
 
     private void validateIfTeamSetIsCorrect(String homeTeam, String awayTeam) {

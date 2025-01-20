@@ -28,10 +28,6 @@ public class GameTest {
         // New Game object
         Game game = new Game(POLAND, SPAIN);
 
-        //when
-        // Call startGame method
-        game.startGame();
-
         //then
         // Check if score is set to 0-0
         assertEquals(0, game.getHomeScore());
