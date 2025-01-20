@@ -17,9 +17,9 @@ public class Game {
 
     private static final String SAME_TEAMS_ERROR_MESSAGE = "Home team and away team cannot be the same.";
 
-    private static final String TOO_LONG_TEAM_NAME = "Team name cannot be longer than 35 characters.";
+    private static final String TOO_LONG_NAME_ERROR_MESSAGE = "Team name cannot be longer than 35 characters.";
 
-    private static final String NEGATIVE_SCORE = "Scores cannot be negative.";
+    private static final String NEGATIVE_SCORE_ERROR_MESSAGE = "Scores cannot be negative.";
 
     public Game(String homeTeam, String awayTeam) {
         validateTeams(homeTeam, awayTeam);
@@ -36,9 +36,25 @@ public class Game {
         this.awayScore = awayScore;
     }
 
+    public int getHomeScore() {
+        return homeScore;
+    }
+
+    public int getAwayScore() {
+        return awayScore;
+    }
+
+    public String getHomeTeam() {
+        return homeTeam;
+    }
+
+    public String getAwayTeam() {
+        return awayTeam;
+    }
+
     private static void validateScore(int homeScore, int awayScore) {
         if (homeScore < 0 || awayScore < 0) {
-            throw new IllegalArgumentException(NEGATIVE_SCORE);
+            throw new IllegalArgumentException(NEGATIVE_SCORE_ERROR_MESSAGE);
         }
     }
 
@@ -49,7 +65,7 @@ public class Game {
 
     private static void validateTeamLenght(String homeTeam, String awayTeam) {
         if (homeTeam.trim().length() > 35 || awayTeam.trim().length() > 35) {
-            throw new IllegalArgumentException(TOO_LONG_TEAM_NAME);
+            throw new IllegalArgumentException(TOO_LONG_NAME_ERROR_MESSAGE);
         }
     }
 
@@ -65,13 +81,5 @@ public class Game {
         if (homeTeam.equals(awayTeam)) {
             throw new IllegalArgumentException(SAME_TEAMS_ERROR_MESSAGE);
         }
-    }
-
-    public int getHomeScore() {
-        return homeScore;
-    }
-
-    public int getAwayScore() {
-        return awayScore;
     }
 }

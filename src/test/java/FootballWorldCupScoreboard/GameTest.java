@@ -16,9 +16,9 @@ public class GameTest {
 
     private static final String SAME_TEAMS_ERROR_MESSAGE = "Home team and away team cannot be the same.";
 
-    private static final String TOO_LONG_TEAM_NAME = "Team name cannot be longer than 35 characters.";
+    private static final String TOO_LONG_NAME_ERROR_MESSAGE = "Team name cannot be longer than 35 characters.";
 
-    private static final String NEGATIVE_SCORE = "Scores cannot be negative.";
+    private static final String NEGATIVE_SCORE_ERROR_MESSAGE = "Scores cannot be negative.";
 
     private static final String POLAND = "Poland";
 
@@ -142,7 +142,7 @@ public class GameTest {
                 () -> new Game(longName, SPAIN)
         );
 
-        assertEquals(TOO_LONG_TEAM_NAME, exception.getMessage());
+        assertEquals(TOO_LONG_NAME_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
@@ -176,7 +176,7 @@ public class GameTest {
                 () -> game.updateScore(-2, 3)
         );
 
-        assertEquals(NEGATIVE_SCORE, exception.getMessage());
+        assertEquals(NEGATIVE_SCORE_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
@@ -194,6 +194,6 @@ public class GameTest {
                 () -> game.updateScore(2, -3)
         );
 
-        assertEquals(NEGATIVE_SCORE, exception.getMessage());
+        assertEquals(NEGATIVE_SCORE_ERROR_MESSAGE, exception.getMessage());
     }
 }
