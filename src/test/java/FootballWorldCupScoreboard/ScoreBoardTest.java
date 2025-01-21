@@ -22,6 +22,8 @@ public class ScoreBoardTest {
 
     private static final String TEAM_BUSY_ERROR = "%s team is already playing another game.";
 
+    private static final String TEAM_NAME_ERROR = "Team names should contain only letters (a-z, A-Z).";
+
     @BeforeEach
     void setUp() {
         scoreBoard = new ScoreBoard();
@@ -111,5 +113,33 @@ public class ScoreBoardTest {
         );
 
         assertEquals(String.format(TEAM_BUSY_ERROR, SPAIN), exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionIfHomeTeamContainsForbiddenCharacters() {
+        // when + then
+        // Use wrong charaster in team name
+        // Then should thorw an exception with message
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> scoreBoard.startGame("Pol@nd", ITALY)
+        );
+
+        assertEquals(TEAM_NAME_ERROR, exception.getMessage());
+
+    }
+
+    @Test
+    void shouldThrowExceptionIfAwayTeamContainsForbiddenCharacters() {
+        // when + then
+        // Use wrong charaster in team name
+        // Then should thorw an exception with message
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> scoreBoard.startGame(POLAND, "23544#$$$#%$)")
+        );
+
+        assertEquals(TEAM_NAME_ERROR, exception.getMessage());
+
     }
 }
