@@ -40,7 +40,7 @@ public class GameTest {
         // Should throw IllegalArgumentException with correct message
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Game(null, SPAIN) // Wyjątek rzucany w konstruktorze
+                () -> new Game(null, SPAIN)
         );
 
         assertEquals(HOME_TEAM_ERROR_MESSAGE, exception.getMessage());

@@ -12,23 +12,21 @@ public class ScoreBoard {
     private static final String TEAM_BUSY_ERROR = "%s team is already playing another game.";
 
     public void startGame(String homeTeam, String awayTeam) {
-        if (validateIfGameExists(homeTeam, awayTeam)) {
-            throw new IllegalArgumentException(GAME_EXISTS_ERROR);
-        }
-
-        if (isTeamBusy(homeTeam)) {
-            throw new IllegalArgumentException(String.format(TEAM_BUSY_ERROR, homeTeam));
-        }
-
-        if (isTeamBusy(awayTeam)) {
-            throw new IllegalArgumentException(String.format(TEAM_BUSY_ERROR, awayTeam));
-        }
-
+        validateGameStartConditions(homeTeam, awayTeam);
         games.add(new Game(homeTeam, awayTeam));
     }
 
     public List<Game> getGames() {
         return games;
+    }
+
+    private void validateGameStartConditions(String homeTeam, String awayTeam) {
+        if (validateIfGameExists(homeTeam, awayTeam)) {
+            throw new IllegalArgumentException(GAME_EXISTS_ERROR);
+        }
+
+        validateIfTeamIsBusy(homeTeam);
+        validateIfTeamIsBusy(awayTeam);
     }
 
     private boolean validateIfGameExists(String homeTeam, String awayTeam) {
@@ -38,8 +36,10 @@ public class ScoreBoard {
                         game.getAwayTeam().equals(homeTeam));
     }
 
-    private boolean isTeamBusy(String team) {
-        return games.stream()
-                .anyMatch(game -> game.getHomeTeam().equals(team) || game.getAwayTeam().equals(team));
+    private void validateIfTeamIsBusy(String team) {
+        if (games.stream()
+                .anyMatch(game -> game.getHomeTeam().equals(team) || game.getAwayTeam().equals(team))) {
+            throw new IllegalArgumentException(String.format(TEAM_BUSY_ERROR, team));
+        }
     }
 }
