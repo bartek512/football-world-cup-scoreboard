@@ -17,7 +17,7 @@ public class UniqueGameIdGeneratorTest {
         //AND
         // Expected id
         // P=16, O=15, L=12, A=1, N=14, D=4 + I=9, T=20, A=1, L=12, Y=25
-        String expectedId = "161512114492011225";
+        String expectedId = "920112251615121144";
 
         String actualId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
 

@@ -3,10 +3,10 @@ package FootballWorldCupScoreboard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ScoreBoardTest {
 
@@ -34,13 +34,22 @@ public class ScoreBoardTest {
         // when
         scoreBoard.startGame(POLAND, SPAIN);
 
+        //and
+        // Generate the expected game ID
+        String expectedGameId = UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN);
+
+
         // then
-        List<Game> games = scoreBoard.getGames();
+        // Get the map of games from the scoreboard
+        LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        Game game = games.get(expectedGameId);
+
+        assertNotNull(game);
         assertEquals(1, games.size());
-        assertEquals(POLAND, games.get(0).getHomeTeam());
-        assertEquals(SPAIN, games.get(0).getAwayTeam());
-        assertEquals(0, games.get(0).getHomeScore());
-        assertEquals(0, games.get(0).getAwayScore());
+        assertEquals(POLAND, game.getHomeTeam());
+        assertEquals(SPAIN, game.getAwayTeam());
+        assertEquals(0, game.getHomeScore());
+        assertEquals(0, game.getAwayScore());
     }
 
     @Test

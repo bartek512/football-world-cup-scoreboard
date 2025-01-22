@@ -1,11 +1,12 @@
 package FootballWorldCupScoreboard;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ScoreBoard {
 
-    private List<Game> games = new ArrayList<>();
+    private LinkedHashMap<String, Game> games = new LinkedHashMap<>();
 
     private static final String GAME_EXISTS_ERROR = "A game between these teams already exists.";
 
@@ -16,16 +17,17 @@ public class ScoreBoard {
     private static final String TEAM_NAME_ERROR = "Team names should contain only letters (a-z, A-Z).";
 
     public void startGame(String homeTeam, String awayTeam) {
-        validateGameStartConditions(homeTeam, awayTeam);
-        games.add(new Game(homeTeam, awayTeam));
+        String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        validateGameStartConditions(homeTeam, awayTeam, gameId);
+        games.put(gameId, new Game(homeTeam, awayTeam));
     }
 
-    public List<Game> getGames() {
+    public LinkedHashMap<String, Game> getGames() {
         return games;
     }
 
-    private void validateGameStartConditions(String homeTeam, String awayTeam) {
-        if (validateIfGameExists(homeTeam, awayTeam)) {
+    private void validateGameStartConditions(String homeTeam, String awayTeam, String gameId) {
+        if (validateIfGameExists(gameId)) {
             throw new IllegalArgumentException(GAME_EXISTS_ERROR);
         }
 
@@ -37,16 +39,14 @@ public class ScoreBoard {
         validateIfTeamIsBusy(awayTeam);
     }
 
-    private boolean validateIfGameExists(String homeTeam, String awayTeam) {
-        return games.stream().anyMatch(game -> game.getHomeTeam().equals(homeTeam) &&
-                game.getAwayTeam().equals(awayTeam)) || games.stream().anyMatch(
-                game -> game.getHomeTeam().equals(awayTeam) &&
-                        game.getAwayTeam().equals(homeTeam));
+    private boolean validateIfGameExists(String gameId) {
+        return games.containsKey(gameId);
     }
 
     private void validateIfTeamIsBusy(String team) {
-        if (games.stream()
-                .anyMatch(game -> game.getHomeTeam().equals(team) || game.getAwayTeam().equals(team))) {
+        if (games.values().stream()
+                .anyMatch(game -> game.getHomeTeam().equalsIgnoreCase(team)
+                        || game.getAwayTeam().equalsIgnoreCase(team))) {
             throw new IllegalArgumentException(String.format(TEAM_BUSY_ERROR, team));
         }
     }
