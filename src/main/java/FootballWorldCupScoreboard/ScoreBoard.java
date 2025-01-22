@@ -1,8 +1,6 @@
 package FootballWorldCupScoreboard;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class ScoreBoard {
 
@@ -43,6 +41,12 @@ public class ScoreBoard {
         }
 
         game.updateScore(homeScore, awayScore);
+    }
+
+    public List<Game> getSummaryByTotalScore() {
+        return games.values().stream().sorted(Comparator.comparingInt((Game game) ->
+                        game.getAwayScore() + game.getHomeScore())
+                .reversed()).toList();
     }
 
     public LinkedHashMap<String, Game> getGames() {
