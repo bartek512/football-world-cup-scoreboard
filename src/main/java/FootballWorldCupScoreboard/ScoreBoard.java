@@ -1,6 +1,7 @@
 package FootballWorldCupScoreboard;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ScoreBoard {
 
@@ -44,7 +45,14 @@ public class ScoreBoard {
     }
 
     public List<Game> getSummaryByTotalScore() {
-        return games.values().stream().sorted(Comparator.comparingInt((Game game) ->
+        if (games.size() == 1) {
+            return games.values().stream().toList();
+        }
+
+        List<Game> gamesList = new ArrayList<>(games.values());
+        Collections.reverse(gamesList);
+
+        return gamesList.stream().sorted(Comparator.comparingInt((Game game) ->
                         game.getAwayScore() + game.getHomeScore())
                 .reversed()).toList();
     }
