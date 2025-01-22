@@ -16,10 +16,22 @@ public class ScoreBoard {
 
     private static final String TEAM_NAME_ERROR = "Team names should contain only letters (a-z, A-Z).";
 
+    private static final String GAME_NOT_FOUND_ERROR = "Game not found.";
+
     public void startGame(String homeTeam, String awayTeam) {
         String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
         validateGameStartConditions(homeTeam, awayTeam, gameId);
         games.put(gameId, new Game(homeTeam, awayTeam));
+    }
+
+    public void finishGame(String homeTeam, String awayTeam) {
+        String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+
+        if (!games.containsKey(gameId)) {
+            throw new IllegalArgumentException(GAME_NOT_FOUND_ERROR);
+        }
+
+        games.remove(gameId);
     }
 
     public LinkedHashMap<String, Game> getGames() {

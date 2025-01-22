@@ -18,11 +18,15 @@ public class ScoreBoardTest {
 
     private static final String ITALY = "Italy";
 
+    private static final String FRANCE = "France";
+
     private static final String GAME_EXISTS_ERROR = "A game between these teams already exists.";
 
     private static final String TEAM_BUSY_ERROR = "%s team is already playing another game.";
 
     private static final String TEAM_NAME_ERROR = "Team names should contain only letters (a-z, A-Z).";
+
+    private static final String GAME_NOT_FOUND_ERROR = "Game not found.";
 
     @BeforeEach
     void setUp() {
@@ -135,7 +139,6 @@ public class ScoreBoardTest {
         );
 
         assertEquals(TEAM_NAME_ERROR, exception.getMessage());
-
     }
 
     @Test
@@ -149,6 +152,67 @@ public class ScoreBoardTest {
         );
 
         assertEquals(TEAM_NAME_ERROR, exception.getMessage());
+    }
 
+    @Test
+    public void shouldFinishGameAndRemoveItFromScoreboard() {
+        // when
+        // Start new game
+        scoreBoard.startGame(POLAND, SPAIN);
+
+        // and
+        // Finish game
+        scoreBoard.finishGame(POLAND, SPAIN);
+
+        // Then
+        // Game should be deleted
+        LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        assertEquals(0, games.size());
+    }
+
+    @Test
+    void shouldThrowExceptionIfGameDoesNotExist() {
+        // when + then
+        // Should throw exception when game is not started
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> scoreBoard.finishGame(POLAND, SPAIN)
+        );
+
+        assertEquals(GAME_NOT_FOUND_ERROR, exception.getMessage());
+    }
+
+    @Test
+    public void shouldFinishGameWithoutAffectingOthers() {
+        // when
+        // Start new games
+        scoreBoard.startGame(POLAND, SPAIN);
+        scoreBoard.startGame(ITALY, FRANCE);
+
+        // and
+        // Finish one game
+        scoreBoard.finishGame(POLAND, SPAIN);
+
+        // Then
+        // Should finish one game properly
+        LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        assertEquals(1, games.size());
+        assertTrue(games.containsKey(UniqueGameIdGenerator.generateUniqueGameId(ITALY, FRANCE)));
+    }
+
+    @Test
+    public void shouldFinishGameWithSwitchedTeams() {
+        // when:
+        // Start a new game
+        scoreBoard.startGame(POLAND, SPAIN);
+
+        // and
+        // Finish game
+        scoreBoard.finishGame(SPAIN, POLAND);
+
+        // Then
+        // Should finish game properly
+        LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        assertEquals(0, games.size());
     }
 }
