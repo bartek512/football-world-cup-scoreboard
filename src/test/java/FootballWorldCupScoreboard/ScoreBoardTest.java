@@ -28,6 +28,8 @@ public class ScoreBoardTest {
 
     private static final String GAME_NOT_FOUND_ERROR = "Game not found.";
 
+    private static final String NEGATIVE_SCORE_ERROR_MESSAGE = "Scores cannot be negative.";
+
     @BeforeEach
     void setUp() {
         scoreBoard = new ScoreBoard();
@@ -202,7 +204,7 @@ public class ScoreBoardTest {
 
     @Test
     public void shouldFinishGameWithSwitchedTeams() {
-        // when:
+        // when
         // Start a new game
         scoreBoard.startGame(POLAND, SPAIN);
 
@@ -215,4 +217,95 @@ public class ScoreBoardTest {
         LinkedHashMap<String, Game> games = scoreBoard.getGames();
         assertEquals(0, games.size());
     }
+
+    @Test
+    public void shouldUpdateScoreSuccessfully() {
+        // when
+        // Start new game
+        scoreBoard.startGame(POLAND, SPAIN);
+
+        // and
+        // Try to update score
+        scoreBoard.updateScore(POLAND, SPAIN, 3, 2);
+
+        // Then
+        Game game = scoreBoard.getGames().get(UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN));
+        assertEquals(3, game.getHomeScore());
+        assertEquals(2, game.getAwayScore());
+    }
+
+    @Test
+    public void shouldThrowExceptionIfScoreIsNegative() {
+        // when
+        // Start new game
+        scoreBoard.startGame(POLAND, SPAIN);
+
+        // and
+        // Try to update score with negative score
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                scoreBoard.updateScore(POLAND, SPAIN, -1, 2)
+        );
+        assertEquals(NEGATIVE_SCORE_ERROR_MESSAGE, exception.getMessage());
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenGameDoesNotExist() {
+        // when
+        // Try to update score when Game does not exist
+        // then
+        // Should throw exception with correct message
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                scoreBoard.updateScore(POLAND, SPAIN, 1, 1)
+        );
+        assertEquals(GAME_NOT_FOUND_ERROR, exception.getMessage());
+    }
+
+    @Test
+    public void shouldUpdateScoreSuccessfullyWhenTeamsAreSwitched() {
+        // when
+        // Start new game
+        scoreBoard.startGame(POLAND, SPAIN);
+
+        // and
+        // Try to update score with switched teams
+        scoreBoard.updateScore(SPAIN, POLAND, 2, 3);
+
+        // Then
+        // Should update properly
+        Game game = scoreBoard.getGames().get(UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN));
+        assertEquals(2, game.getHomeScore());
+        assertEquals(3, game.getAwayScore());
+    }
+
+
+    @Test
+    public void shouldThrowExceptionWhenGameIsFinished() {
+        // when
+        // Start new game
+        scoreBoard.startGame(POLAND, SPAIN);
+
+        // and
+        // Finish match
+        scoreBoard.finishGame(POLAND, SPAIN);
+
+        // then
+        // Should throw exception with correct message
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                scoreBoard.updateScore(POLAND, SPAIN, 1, 1)
+        );
+        assertEquals(GAME_NOT_FOUND_ERROR, exception.getMessage());
+    }
+
+    @Test
+    public void shouldThrowExceptionForNullTeamName() {
+        // when
+        // Try to update score when one of the team is null
+        // then
+        // Shouldn't find this game and should throw exception
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                scoreBoard.updateScore(null, SPAIN, 1, 1)
+        );
+        assertEquals(GAME_NOT_FOUND_ERROR, exception.getMessage());
+    }
+
 }

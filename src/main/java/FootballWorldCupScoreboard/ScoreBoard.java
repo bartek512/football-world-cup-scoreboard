@@ -34,6 +34,17 @@ public class ScoreBoard {
         games.remove(gameId);
     }
 
+    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+
+        Game game = games.get(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException(GAME_NOT_FOUND_ERROR);
+        }
+
+        game.updateScore(homeScore, awayScore);
+    }
+
     public LinkedHashMap<String, Game> getGames() {
         return games;
     }
