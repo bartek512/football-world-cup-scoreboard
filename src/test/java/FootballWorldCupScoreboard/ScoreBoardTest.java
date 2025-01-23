@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ScoreBoardTest {
 
-    ScoreBoard scoreBoard;
-
     private static final String POLAND = "Poland";
 
     private static final String SPAIN = "Spain";
@@ -44,6 +42,8 @@ public class ScoreBoardTest {
 
     private static final String NEGATIVE_SCORE_ERROR_MESSAGE = "Scores cannot be negative.";
 
+    private ScoreBoard scoreBoard;
+
     @BeforeEach
     void setUp() {
         scoreBoard = new ScoreBoard();
@@ -54,15 +54,15 @@ public class ScoreBoardTest {
         // when
         scoreBoard.startGame(POLAND, SPAIN);
 
-        //and
+        // and
         // Generate the expected game ID
-        String expectedGameId = UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN);
+        final String expectedGameId = UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN);
 
 
         // then
         // Get the map of games from the scoreboard
-        LinkedHashMap<String, Game> games = scoreBoard.getGames();
-        Game game = games.get(expectedGameId);
+        final LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        final Game game = games.get(expectedGameId);
 
         assertNotNull(game);
         assertEquals(1, games.size());
@@ -78,11 +78,11 @@ public class ScoreBoardTest {
         // Start new game
         scoreBoard.startGame(POLAND, SPAIN);
 
-        //and
+        // and
         // Try to start game, between the same teams
-        //then
+        // then
         // Should exception with expected message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> scoreBoard.startGame(POLAND, SPAIN)
         );
@@ -96,11 +96,11 @@ public class ScoreBoardTest {
         // Start new game
         scoreBoard.startGame(POLAND, SPAIN);
 
-        //and
+        // and
         // Try to start game, between the same teams
-        //then
+        // then
         // Should exception with expected message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> scoreBoard.startGame(SPAIN, POLAND)
         );
@@ -114,11 +114,11 @@ public class ScoreBoardTest {
         // Start new game
         scoreBoard.startGame(POLAND, SPAIN);
 
-        //and
+        // and
         // Try to start game with one busy team
-        //then
+        // then
         // Should exception with expected message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> scoreBoard.startGame(POLAND, ITALY)
         );
@@ -132,11 +132,11 @@ public class ScoreBoardTest {
         // Start new game
         scoreBoard.startGame(POLAND, SPAIN);
 
-        //and
+        // and
         // Try to start game with one busy team
-        //then
+        // then
         // Should exception with expected message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> scoreBoard.startGame(ITALY, SPAIN)
         );
@@ -149,7 +149,7 @@ public class ScoreBoardTest {
         // when + then
         // Use wrong charaster in team name
         // Then should thorw an exception with message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> scoreBoard.startGame("Pol@nd", ITALY)
         );
@@ -162,7 +162,7 @@ public class ScoreBoardTest {
         // when + then
         // Use wrong charaster in team name
         // Then should thorw an exception with message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> scoreBoard.startGame(POLAND, "23544#$$$#%$)")
         );
@@ -180,9 +180,9 @@ public class ScoreBoardTest {
         // Finish game
         scoreBoard.finishGame(POLAND, SPAIN);
 
-        // Then
+        // then
         // Game should be deleted
-        LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        final LinkedHashMap<String, Game> games = scoreBoard.getGames();
         assertEquals(0, games.size());
     }
 
@@ -190,7 +190,7 @@ public class ScoreBoardTest {
     void shouldThrowExceptionIfGameDoesNotExist() {
         // when + then
         // Should throw exception when game is not started
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> scoreBoard.finishGame(POLAND, SPAIN)
         );
@@ -209,9 +209,9 @@ public class ScoreBoardTest {
         // Finish one game
         scoreBoard.finishGame(POLAND, SPAIN);
 
-        // Then
+        // then
         // Should finish one game properly
-        LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        final LinkedHashMap<String, Game> games = scoreBoard.getGames();
         assertEquals(1, games.size());
         assertTrue(games.containsKey(UniqueGameIdGenerator.generateUniqueGameId(ITALY, FRANCE)));
     }
@@ -228,7 +228,7 @@ public class ScoreBoardTest {
 
         // Then
         // Should finish game properly
-        LinkedHashMap<String, Game> games = scoreBoard.getGames();
+        final LinkedHashMap<String, Game> games = scoreBoard.getGames();
         assertEquals(0, games.size());
     }
 
@@ -242,8 +242,8 @@ public class ScoreBoardTest {
         // Try to update score
         scoreBoard.updateScore(POLAND, SPAIN, 3, 2);
 
-        // Then
-        Game game = scoreBoard.getGames().get(UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN));
+        // then
+        final Game game = scoreBoard.getGames().get(UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN));
         assertEquals(3, game.getHomeScore());
         assertEquals(2, game.getAwayScore());
     }
@@ -256,7 +256,7 @@ public class ScoreBoardTest {
 
         // and
         // Try to update score with negative score
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+        final Exception exception = assertThrows(IllegalArgumentException.class, () ->
                 scoreBoard.updateScore(POLAND, SPAIN, -1, 2)
         );
         assertEquals(NEGATIVE_SCORE_ERROR_MESSAGE, exception.getMessage());
@@ -268,7 +268,7 @@ public class ScoreBoardTest {
         // Try to update score when Game does not exist
         // then
         // Should throw exception with correct message
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+        final Exception exception = assertThrows(IllegalArgumentException.class, () ->
                 scoreBoard.updateScore(POLAND, SPAIN, 1, 1)
         );
         assertEquals(GAME_NOT_FOUND_ERROR, exception.getMessage());
@@ -284,9 +284,9 @@ public class ScoreBoardTest {
         // Try to update score with switched teams
         scoreBoard.updateScore(SPAIN, POLAND, 2, 3);
 
-        // Then
+        // then
         // Should update properly
-        Game game = scoreBoard.getGames().get(UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN));
+        final Game game = scoreBoard.getGames().get(UniqueGameIdGenerator.generateUniqueGameId(POLAND, SPAIN));
         assertEquals(2, game.getHomeScore());
         assertEquals(3, game.getAwayScore());
     }
@@ -304,7 +304,7 @@ public class ScoreBoardTest {
 
         // then
         // Should throw exception with correct message
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+        final Exception exception = assertThrows(IllegalArgumentException.class, () ->
                 scoreBoard.updateScore(POLAND, SPAIN, 1, 1)
         );
         assertEquals(GAME_NOT_FOUND_ERROR, exception.getMessage());
@@ -316,7 +316,7 @@ public class ScoreBoardTest {
         // Try to update score when one of the team is null
         // then
         // Shouldn't find this game and should throw exception
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+        final Exception exception = assertThrows(IllegalArgumentException.class, () ->
                 scoreBoard.updateScore(null, SPAIN, 1, 1)
         );
         assertEquals(GAME_NOT_FOUND_ERROR, exception.getMessage());
@@ -325,7 +325,7 @@ public class ScoreBoardTest {
     @Test
     void shouldReturnEmptyListWhenNoGamesExist() {
         // when
-        List<Game> summary = scoreBoard.getSummaryByTotalScore();
+        final List<Game> summary = scoreBoard.getSummaryByTotalScore();
 
         // then
         assertNotNull(summary);
@@ -341,7 +341,7 @@ public class ScoreBoardTest {
 
         // when
         // Get score board witch summary
-        List<Game> summary = scoreBoard.getSummaryByTotalScore();
+        final List<Game> summary = scoreBoard.getSummaryByTotalScore();
 
         // then
         // Should return only one game
@@ -362,7 +362,7 @@ public class ScoreBoardTest {
 
         // when
         // Get score board witch summary
-        List<Game> summary = scoreBoard.getSummaryByTotalScore();
+        final List<Game> summary = scoreBoard.getSummaryByTotalScore();
 
         // then
         // All games should be returned using reversed adding order
@@ -383,7 +383,7 @@ public class ScoreBoardTest {
 
         // when
         // Get score board witch summary
-        List<Game> summary = scoreBoard.getSummaryByTotalScore();
+        final List<Game> summary = scoreBoard.getSummaryByTotalScore();
 
         // then
         // All games should be returned using adding order
@@ -429,7 +429,7 @@ public class ScoreBoardTest {
 
         // when
         // Get score board witch summary
-        List<Game> summary = scoreBoard.getSummaryByTotalScore();
+        final List<Game> summary = scoreBoard.getSummaryByTotalScore();
 
         // then
         // All games should be sorted properly
@@ -483,7 +483,7 @@ public class ScoreBoardTest {
 
         // when
         // Get score board witch summary
-        List<Game> summary = scoreBoard.getSummaryByTotalScore();
+        final List<Game> summary = scoreBoard.getSummaryByTotalScore();
 
         // then
         // All games should be sorted properly
@@ -541,7 +541,7 @@ public class ScoreBoardTest {
 
         // and
         // Get score board witch summary
-        List<Game> summary = scoreBoard.getSummaryByTotalScore();
+        final List<Game> summary = scoreBoard.getSummaryByTotalScore();
 
         // then
         // All games should be sorted properly

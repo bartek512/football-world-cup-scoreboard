@@ -10,17 +10,17 @@ public class UniqueGameIdGeneratorTest {
     public void generateUniqueGameIdTest() {
         // given
         // Two teams
-        String homeTeam = "POLAND";
-        String awayTeam = "ITALY";
+        final String homeTeam = "POLAND";
+        final String awayTeam = "ITALY";
 
         // and
         // Expected id
         // P=16, O=15, L=12, A=1, N=14, D=4 + I=9, T=20, A=1, L=12, Y=25
-        String expectedId = "920112251615121144";
+        final String expectedId = "920112251615121144";
 
         // when
         // Generate Id
-        String actualId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        final String actualId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
 
         // then
         // ID should be generated properly
@@ -31,16 +31,16 @@ public class UniqueGameIdGeneratorTest {
     public void generateEmptyStringWhenBothTeamsAreNull() {
         // given
         // Two  null teams
-        String homeTeam = null;
-        String awayTeam = null;
+        final String homeTeam = null;
+        final String awayTeam = null;
 
         // and
         // Expected id
-        String expectedId = "";
+        final String expectedId = "";
 
         // when
         // Generate Id
-        String actualId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        final String actualId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
 
         // then
         // ID should be empty
@@ -51,17 +51,17 @@ public class UniqueGameIdGeneratorTest {
     public void generateIdWhenOneOfTeamsIsNull() {
         // given
         // One  null team
-        String homeTeam = "POLAND";
-        String awayTeam = null;
+        final String homeTeam = "POLAND";
+        final String awayTeam = null;
 
         // and
         // Expected id
         // P=16, O=15, L=12, A=1, N=14, D=4
-        String expectedId = "1615121144";
+        final String expectedId = "1615121144";
 
         // when
         // Generate Id
-        String actualId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        final String actualId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
 
         // then
         // ID should be generated properly

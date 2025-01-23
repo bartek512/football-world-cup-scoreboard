@@ -23,11 +23,11 @@ public class GameTest {
 
     @Test
     void shouldStartGameWithInitialScoreZero() {
-        //given
+        // given
         // New Game object
-        Game game = new Game(POLAND, SPAIN);
+        final Game game = new Game(POLAND, SPAIN);
 
-        //then
+        // then
         // Check if score is set to 0-0
         assertEquals(0, game.getHomeScore());
         assertEquals(0, game.getAwayScore());
@@ -35,53 +35,53 @@ public class GameTest {
 
     @Test
     void shouldThrowExceptionWhenHomeTeamIsNull() {
-        //when
+        // when
         // Create wrong Game object
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game(null, SPAIN)
         );
-
         assertEquals(HOME_TEAM_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenAwayTeamIsNull() {
-        //when
+        // when
         // Create wrong Game object
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game(POLAND, null)
         );
-
         assertEquals(AWAY_TEAM_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenAwayTeamIsEmpty() {
-        //when
+        // when
         // Create wrong Game object
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game(POLAND, "")
         );
-
         assertEquals(AWAY_TEAM_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenHomeTeamIsEmpty() {
-        //when
+        // when
         // Create wrong Game object
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game("", SPAIN)
         );
-
         assertEquals(HOME_TEAM_ERROR_MESSAGE, exception.getMessage());
     }
 
@@ -89,12 +89,12 @@ public class GameTest {
     void shouldThrowExcepetionWhenBothTeamsAreNull() {
         //when
         // Create wrong Game object
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game(null, null)
         );
-
         assertEquals(HOME_TEAM_ERROR_MESSAGE, exception.getMessage());
     }
 
@@ -102,12 +102,12 @@ public class GameTest {
     void shouldThrowExcepetionWhenBothTeamsAreEmpty() {
         //when
         // Create wrong Game object
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game("", "")
         );
-
         assertEquals(HOME_TEAM_ERROR_MESSAGE, exception.getMessage());
     }
 
@@ -115,40 +115,39 @@ public class GameTest {
     void shouldThrowExceptionWhenTeamsAreTheSame() {
         //when
         // Create wrong Game object
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game(POLAND, POLAND)
         );
-
         assertEquals(SAME_TEAMS_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenHomeTeamNameExceedsMaxLength() {
-        //given
+        // given
         // Too long away team name
-        String longName = POLAND.repeat(6);
+        final String longName = POLAND.repeat(6);
 
-        //when
+        // when
         // Create game with too long home team name
-        //then
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Game(longName, SPAIN)
         );
-
         assertEquals(TOO_LONG_NAME_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldUpdateScoreProperly() {
-        //given
+        // given
         // New Game object
-        Game game = new Game(POLAND, SPAIN);
+        final Game game = new Game(POLAND, SPAIN);
 
-        //when
+        // when
         // Update score do 2-3 (home, away)
         game.updateScore(2, 3);
 
@@ -160,37 +159,35 @@ public class GameTest {
 
     @Test
     void shouldThrowExceptionWhenHomeScoreIsNegative() {
-        //given
+        // given
         // New Game object
-        Game game = new Game(POLAND, SPAIN);
+        final Game game = new Game(POLAND, SPAIN);
 
-        //when
+        // when
         // Update score do 2-3 (home, away)
-        //then
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> game.updateScore(-2, 3)
         );
-
         assertEquals(NEGATIVE_SCORE_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenAwayScoreIsNegative() {
-        //given
+        // given
         // New Game object
-        Game game = new Game(POLAND, SPAIN);
+        final Game game = new Game(POLAND, SPAIN);
 
-        //when
+        // when
         // Update score do 2-3 (home, away)
-        //then
+        // then
         // Should throw IllegalArgumentException with correct message
-        IllegalArgumentException exception = assertThrows(
+        final IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> game.updateScore(2, -3)
         );
-
         assertEquals(NEGATIVE_SCORE_ERROR_MESSAGE, exception.getMessage());
     }
 }

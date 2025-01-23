@@ -24,7 +24,7 @@ public class UniqueGameIdGenerator {
      * @return A string representing the unique identifier for the match, based on the team names.
      */
     public static String generateUniqueGameId(String homeTeam, String awayTeam) {
-        String[] teams = {homeTeam == null ? "" : homeTeam.toUpperCase(),
+        final String[] teams = {homeTeam == null ? "" : homeTeam.toUpperCase(),
                 awayTeam == null ? "" : awayTeam.toUpperCase()};
         Arrays.sort(teams);
         final String combinedTeams = teams[0] + teams[1];

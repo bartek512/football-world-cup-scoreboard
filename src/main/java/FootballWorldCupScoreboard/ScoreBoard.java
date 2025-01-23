@@ -1,7 +1,6 @@
 package FootballWorldCupScoreboard;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ScoreBoard {
 
@@ -18,13 +17,13 @@ public class ScoreBoard {
     private static final String GAME_NOT_FOUND_ERROR = "Game not found.";
 
     public void startGame(String homeTeam, String awayTeam) {
-        String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        final String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
         validateGameStartConditions(homeTeam, awayTeam, gameId);
         games.put(gameId, new Game(homeTeam, awayTeam));
     }
 
     public void finishGame(String homeTeam, String awayTeam) {
-        String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        final String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
 
         if (!games.containsKey(gameId)) {
             throw new IllegalArgumentException(GAME_NOT_FOUND_ERROR);
@@ -34,9 +33,9 @@ public class ScoreBoard {
     }
 
     public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
-        String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        final String gameId = UniqueGameIdGenerator.generateUniqueGameId(homeTeam, awayTeam);
+        final Game game = games.get(gameId);
 
-        Game game = games.get(gameId);
         if (game == null) {
             throw new IllegalArgumentException(GAME_NOT_FOUND_ERROR);
         }
@@ -49,7 +48,7 @@ public class ScoreBoard {
             return games.values().stream().toList();
         }
 
-        List<Game> gamesList = new ArrayList<>(games.values());
+        final List<Game> gamesList = new ArrayList<>(games.values());
         Collections.reverse(gamesList);
 
         return gamesList.stream().sorted(Comparator.comparingInt((Game game) ->
